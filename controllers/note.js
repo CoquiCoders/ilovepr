@@ -4,7 +4,7 @@ var Note = require('../models/Note');
 
 
 /**
- * GET /signup
+ * GET /note/new
  * Signup page.
  */
 
@@ -16,41 +16,35 @@ exports.getNewNoteForm = function(req, res) {
 };
 
 /**
- * POST /signup
+ * POST /note/new
  * Create a new local account.
  * @param email
  * @param password
  */
 
-exports.postSignup = function(req, res, next) {
-  req.assert('email', 'Email is not valid').isEmail();
-  req.assert('password', 'Password must be at least 4 characters long').len(4);
-  req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
+exports.postNewNoteForm = function(req, res, next) {
+  req.assert('noteText', 'Note must be between 5 and 150 characters').len(5, 150);
 
   var errors = req.validationErrors();
 
   if (errors) {
     req.flash('errors', errors);
-    return res.redirect('/signup');
+    return res.redirect('/note/new');
   }
 
-  var user = new User({
-    email: req.body.email,
-    password: req.body.password
+  var note = new Note({
+    text: req.body.noteText
   });
 
-  user.save(function(err) {
+  note.save(function(err) {
     if (err) {
-      if (err.code === 11000) {
-        req.flash('errors', { msg: 'User with that email already exists.' });
-      }
-      return res.redirect('/signup');
+      req.flash('errors', { msg: 'Something happened idk what' });
     }
-    req.logIn(user, function(err) {
-      if (err) return next(err);
-      res.redirect('/');
-    });
+    return res.redirect('/');
   });
+};
+
+exports.getNotes = function(req, res, next) {
 };
 
 
