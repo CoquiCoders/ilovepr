@@ -16,6 +16,7 @@ var expressValidator = require('express-validator');
 
 var homeController = require('./controllers/home');
 var userController = require('./controllers/user');
+var noteController = require('./controllers/note');
 var apiController = require('./controllers/api');
 var contactController = require('./controllers/contact');
 var forgotController = require('./controllers/forgot');
@@ -97,6 +98,7 @@ app.use(express.errorHandler());
  */
 
 app.get('/', homeController.index);
+app.get('/new', noteController.getNewNoteForm);
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
 app.get('/logout', userController.logout);
