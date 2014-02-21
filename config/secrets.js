@@ -1,5 +1,5 @@
 module.exports = {
-  db: 'localhost',
+  db: process.env.MONGOLAB_URI || 'localhost',
 
   localAuth: true,
   sessionSecret: "Your Session Secret goes here",
@@ -95,3 +95,4 @@ module.exports = {
     cancelUrl: 'http://localhost:3000/api/paypal/cancel'
   }
 };
+
