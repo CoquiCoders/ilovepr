@@ -6,9 +6,11 @@ html
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     meta(name='description', content='')
     meta(name='author', content='')
-    title #{title} - Why I Love Puerto Rico
+    title #{title} - Yo Me Quedo en Puerto Rico
     != css('styles')
     != js('application')
+    script(src='/js/lib/jquery.isotope.min.js')
+    // TODO -- figure out how stuff gets added to JADE like this
   body
     #wrap
       include partials/navigation
