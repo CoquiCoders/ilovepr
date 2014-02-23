@@ -1,9 +1,7 @@
 $(document).ready(function() {
 
 	var container = $('.notes');
-	
-	console.log(container.width());
-	
+
 	container.isotope({
 		itemSelector: '.note',
 		// options...
@@ -11,7 +9,7 @@ $(document).ready(function() {
 		// set columnWidth to a percentage of container width
 		masonry: { columnWidth: container.width() / 50 }
 	});
-	
+
 	// update columnWidth on window resize
 	$(window).smartresize(function(){
 	  container.isotope({
