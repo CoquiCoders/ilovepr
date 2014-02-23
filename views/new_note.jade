@@ -3,13 +3,17 @@ extends layout
 block content
   form.form-horizontal(id='new-note-form', method='POST')
     input(type='hidden', name='_csrf', value=token)
-    legend New Note
+    legend Nueva Nota
     .form-group
-      label.col-sm-3.control-label(for='noteText') Text
+      .col-sm-3.control-label(for='noteText') Nota
       .col-sm-7
-        input.form-control(type='text', name='noteText', id='note-text', placeholder='Text', autofocus)
+        textarea.form-control(type='text', name='noteText', id='note-text', placeholder='Texto', autofocus)
+    .form-group
+      label.col-sm-3.control-label(for='twitterHandle') @
+      .col-sm-7
+        input.form-control(type='text', name='twitterHandle', id='twitterHandle', placeholder='Twitter', autofocus)
     .form-group
       .col-sm-offset-3.col-sm-7
         button.btn.btn-success(type='submit')
           i.fa.fa-check
-          | Submit
+          | Enviar

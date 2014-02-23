@@ -33,7 +33,8 @@ exports.postNewNoteForm = function(req, res, next) {
   }
 
   var note = new Note({
-    text: req.body.noteText
+    text: req.body.noteText,
+    twitterHandle: req.body.twitterHandle
   });
 
   note.save(function(err) {
