@@ -10,8 +10,7 @@ var Note = require('../models/Note');
 exports.index = function(req, res) {
   Note.find(function(err, foundNotes) {
     res.render('home', {
-        title: 'Home',
-        notes: foundNotes
+       notes: foundNotes
     });
   });
 };
