@@ -185,7 +185,7 @@ io.configure(function() {
 io.sockets.on('connection', function(socket) {
   socket.emit('greet', { hello: 'Hey, Mr.Client!' });
   socket.on('respond', function(data) {
-    console.log(data);
+    console.log('Socket Responding.');
   });
   socket.on('disconnect', function() {
     console.log('Socket disconnected');

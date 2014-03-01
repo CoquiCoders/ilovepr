@@ -7,4 +7,11 @@ var noteSchema = new mongoose.Schema({
   twitterHandle: { type: String, unique: false}
 });
 
-module.exports = mongoose.model('Note', noteSchema);
+//module.exports = mongoose.model('Note', noteSchema);
+var noteModel = mongoose.model('Note', noteSchema);
+
+// If I want to add extra functionality to the model, that's the way to do it.
+noteModel.hello = function() {
+};
+
+module.exports = noteModel;

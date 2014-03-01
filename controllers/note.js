@@ -45,12 +45,10 @@ exports.postNewNoteForm = function(req, res, next) {
   });
 };
 
-exports.getNotes = function(req, res, next) {
-};
 
 exports.respond = function (socket_io) {
   // now we can do whatever we want:
-  console.log('responding');
+  console.log('RESPONDING');
   socket_io.on('news',function(newsreel){
   // as is proper, protocol logic like
   // this belongs in a controller:
