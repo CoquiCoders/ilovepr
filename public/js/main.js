@@ -66,15 +66,12 @@ $(document).ready(function() {
         .isotope('reloadItems')
         .isotope({ sortBy: 'original-order' });
 
-      // Clear out the text from flash element.
+      // Clear out the text from flash element and fade it out.
       flashElement
         .data('note-count', 0)
-        .addClass('animated ' + 'fadeOut')
+        .addClass('animated ' + fadeOutAnimationName)
       return false;
     });
-
-
-
   });
 
   // @TODO Should this just be ajax?
@@ -88,16 +85,6 @@ $(document).ready(function() {
       twitterHandle: '',
     };
     socket.emit('newNote', note);
-    return false;
-  });
-
-  $('.flash-show-items').click(function(event) {
-    console.log('flash show');
-    event.preventDefault();
-    event.stopPropagation();
-    container
-      .isotope('reloadItems')
-      .isotope({ sortBy: 'original-order' });
     return false;
   });
 
