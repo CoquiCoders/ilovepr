@@ -15,7 +15,7 @@ $(document).ready(function() {
   });
 
   // Bind to the flash element that every time the animation is over, to clear the animate.css classes.
-  flashElement.bind('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+  flashElement.bind('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',   function() {
     // React differently based on in our out animation;
     if ($(this).hasClass(flashOutAnimationName)) {
       // Clear html on flash out.
@@ -35,7 +35,11 @@ $(document).ready(function() {
     console.log('CLIENT: Connection Made');
   });
 
-  socket.on('newNoteAdded', function(data) {
+  socket.on('appFlash', function(flashData) {
+    $('#flash').html('<div class="alert animated fadeIn alert-' + flashData.type + '">' + flashData.message + '</div>');
+  });
+
+  socket.on('newNoteSaved', function(data) {
     console.log('incoming');
     console.log(data);
     // @TODO how to template this?
@@ -51,7 +55,12 @@ $(document).ready(function() {
       // Make it animate.css pretty.
       .addClass('animated ' + flashInAnimationName);
     // Template the new note.
-    var newNote = $("<li class='note'><div class='note-text'>" + data.text + "</div></li>");
+    var newNote = "<li class='note'><div class='note-text'>" + data.text + "</div>";
+    if (data.twitterHandle) {
+      newNote = newNote + "<div class='note-twitter-handle'><a href='http://twitter.com/" + data.twitterHandle + "' target='_blank'>@" + data.twitterHandle + "</a></div>";
+    }
+    newNote = newNote + "</li>";
+
     // Prepend it to the container, but don't re-init isotope until Show Me Is Clicked.
     container.prepend(newNote);
 
@@ -69,7 +78,7 @@ $(document).ready(function() {
       // Clear out the text from flash element and fade it out.
       flashElement
         .data('note-count', 0)
-        .addClass('animated ' + fadeOutAnimationName)
+        .addClass('animated ' + flashOutAnimationName)
       return false;
     });
   });
@@ -80,11 +89,14 @@ $(document).ready(function() {
     event.stopPropagation();
     // @TODO -- rework this so that validation is still done properly.
     var newNoteText = $('#new-note-form #note-text').val();
+    var twitterHandle = $('#new-note-form #twitterHandle').val();
+    // @TODO - http://stackoverflow.com/questions/7519617/get-the-client-id-of-the-message-sender-in-socket-io
+    // Use the socket id to react differently for senders.
     var note = {
       text: newNoteText,
-      twitterHandle: '',
+      twitterHandle: twitterHandle,
     };
-    socket.emit('newNote', note);
+    socket.emit('newNoteSubmitted', note);
     return false;
   });
 

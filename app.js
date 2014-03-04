@@ -197,10 +197,28 @@ io.configure(function() {
 io.sockets.on('connection', function(socket) {
   console.log('SERVER: Connection Made');
 
-  socket.on('newNote', function(data) {
+  socket.on('newNoteSubmitted', function(noteData) {
+    // @TODO use local socket to react differently for submitter.
     console.log('New Note');
-    console.log(data);
-    io.sockets.emit('newNoteAdded', data);
+    console.log(noteData);
+    noteController.saveNote(noteData, function(err, savedNote) {
+      console.log(err);
+      console.log(savedNote);
+      if (err) {
+        var errorMessage = "Something happend and we couldn't save your note. Please try again.";
+        if (err.code == 11000) {
+          console.log('Dup Note.');
+          errorMessage = "A note like this already exists. Be creative!";
+        }
+        socket.emit('appFlash', {
+          type: 'danger',
+          message: errorMessage
+        });
+      }
+      else {
+        io.sockets.emit('newNoteSaved', savedNote);
+      }
+    });
   });
 
 });

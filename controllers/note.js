@@ -4,6 +4,12 @@ var Note = require('../models/Note');
 
 
 /**
+ * Abstractions to Node Saving
+ * Let's abstract the operations we have going on with Mongo because we may have different triggers for
+ * them.
+ */
+
+/**
  * GET /note/new
  * Signup page.
  */
@@ -43,10 +49,23 @@ exports.postNewNoteForm = function(req, res, next) {
     }
     return res.redirect('/');
   });
+
 };
 
+// @TODO cleanup the stupid property naming and make it consistent.
+exports.saveNote = function(noteData, callback) {
+  var note = new Note(noteData);
+  // I suck.  this is where controller logic should go and instead its in app. boo.
+  note.save(function(err, note) {
+      callback(err, note);
+  });
 
-exports.respond = function (socket_io) {
+}
+
+
+
+
+/*exports.respond = function (socket_io) {
   // now we can do whatever we want:
   console.log('RESPONDING');
   socket_io.on('news',function(newsreel){
@@ -54,4 +73,4 @@ exports.respond = function (socket_io) {
   // this belongs in a controller:
     socket.broadcast.emit(newsreel);
   });
-};
+};*/
