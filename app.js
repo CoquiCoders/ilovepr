@@ -197,6 +197,8 @@ io.configure(function() {
 io.sockets.on('connection', function(socket) {
   console.log('SERVER: Connection Made');
 
+  // @TODO should be this AJAX?
+  // Handle submission of a new note on the form;
   socket.on('newNoteSubmitted', function(noteData) {
     // @TODO use local socket to react differently for submitter.
     console.log('New Note');
@@ -218,6 +220,18 @@ io.sockets.on('connection', function(socket) {
       else {
         io.sockets.emit('newNoteSaved', savedNote);
       }
+    });
+  });
+
+  // Handle onScroll event when user scrolls to bottom of page.
+  socket.on('additionalNotesRequested', function(requestParams) {
+    console.log(requestParams);
+    console.log('Give me new notes');
+    noteController.getNotes(requestParams).then(function(newNotes) {
+      console.log('notes promise.');
+      console.log(newNotes);
+      // Emit new socket with retrieved notes.
+      socket.emit('additionalNotesLoaded', {notes: newNotes, requestParams: requestParams});
     });
   });
 

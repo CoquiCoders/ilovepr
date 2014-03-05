@@ -60,7 +60,13 @@ exports.saveNote = function(noteData, callback) {
       callback(err, note);
   });
 
-}
+};
+
+exports.getNotes = function(requestParams) {
+  console.log('getnotes');
+  // @TODO -- use select here to figure out unneeded params.
+  return Note.find(null, null, requestParams).exec();
+};
 
 
 
