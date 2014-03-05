@@ -8,7 +8,7 @@ var Note = require('../models/Note');
  */
 
 exports.index = function(req, res) {
-  Note.find(function(err, foundNotes) {
+  Note.find(null, null, {limit: 10}, function(err, foundNotes) {
     console.log(foundNotes);
     res.render('home', {
        notes: foundNotes
