@@ -14,6 +14,12 @@ $(document).ready(function() {
     masonry: { columnWidth: container.width() / 50 }
   });
 
+  $('ul.notes').bind('inview', function(event, isInView, visiblePartX, visiblePartY) {
+    if (isInView && visiblePartY == 'bottom') {
+      console.log('Gonna load some stuff');
+    }
+  });
+
   // Bind to the flash element that every time the animation is over, to clear the animate.css classes.
   flashElement.bind('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',   function() {
     // React differently based on in our out animation;
