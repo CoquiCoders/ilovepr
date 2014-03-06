@@ -19,18 +19,44 @@ $(document).ready(function() {
     return newNote;
   };
 
+  var getDocHeight = function() {
+    var D = document;
+    return Math.max(
+      Math.max(D.body.scrollHeight, D.documentElement.scrollHeight),
+      Math.max(D.body.offsetHeight, D.documentElement.offsetHeight),
+      Math.max(D.body.clientHeight, D.documentElement.clientHeight)
+    );
+  }
+
+  var requestNotes = function() {
+    var noteRequestParams = {skip: container.data('loadedNotes'), limit: noteIncrementLoadLimit};
+    console.log(noteRequestParams);
+    socket.emit('additionalNotesRequested', noteRequestParams);
+  };
+
+  container.data('loadedNotes', 0);
+  $(window).bind('scroll', function() {
+    if($(window).scrollTop() + $(window).height() == getDocHeight()) {
+      console.log("bottom!");
+      requestNotes();
+    }
+  });
+
   // Setup Stuff.
   // The notes there initially will always show up so we can be sure about it.
   // TODO -- look into socket loading in the beginning -- with not db call by load at all.
-  container.data('loadedNotes', 0);
+  /*container.data('loadedNotes', 0);
   container.bind('inview', function(event, isInView, visiblePartX, visiblePartY) {
-    if (isInView && visiblePartY == 'bottom') {
+    console.log('Bind Fire.');
+    console.log('isInView: ' + isInView);
+    console.log('visiblePartY: ' + visiblePartY);
+    if (isInView && (visiblePartY == 'bottom' || visiblePartY == 'both')) {
       console.log('Gonna load some stuff');
       var noteRequestParams = {skip: container.data('loadedNotes'), limit: noteIncrementLoadLimit};
       console.log(noteRequestParams);
       socket.emit('additionalNotesRequested', noteRequestParams);
     }
-  });
+  });*/
 
   // Bind to the flash element that every time the animation is over, to clear the animate.css classes.
   var fadeOutBinding = function () {
@@ -83,7 +109,8 @@ $(document).ready(function() {
     }
     if (newNoteData.notes.length < 1) {
         console.log('Unbind InView');
-        container.unbind('inview');
+        //container.unbind('inview');
+        $(window).unbind('scroll');
         return;
     }
     console.log('NewNotesReceived');
