@@ -182,18 +182,6 @@ io.configure(function() {
   io.set('transports', ['websocket']);
 });
 
-// Runs when a connection from a client (browser) is detected;
-/*io.sockets.on('connection', function(socket) {
-  console.log(socket);
-  socket.emit('greet', { hello: 'Hey, Mr.Client!' });
-  socket.on('respond', function(data) {
-    console.log('Socket Responding.');
-  });
-  socket.on('disconnect', function() {
-    console.log('Socket disconnected');
-  });
-});*/
-
 io.sockets.on('connection', function(socket) {
   console.log('SERVER: Connection Made');
 

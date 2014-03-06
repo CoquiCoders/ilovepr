@@ -47,7 +47,7 @@ $(document).ready(function() {
 
 
   // Socket Ops.
-  var socket = io.connect(window.location.href);
+  var socket = io.connect();
   socket.on('connect', function() {
     console.log('CLIENT: Connection Made');
     var noteRequestParams = {skip: container.data('loadedNotes'), limit: noteIncrementLoadLimit};
