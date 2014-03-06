@@ -191,24 +191,24 @@ io.sockets.on('connection', function(socket) {
     // @TODO use local socket to react differently for submitter.
     noteController.saveNote(noteData, function(err, savedNote) {
       if (err) {
-	console.log(err);
-	var flashErrors = [];
+        console.log(err);
+        var flashErrors = [];
         var errorMessage = "Something happend and we couldn't save your note. Please try again.";
         if (err.code == 11000) {
           console.log('Dup Note.');
-	  flashErrors.push({ type: 'danger', message: "A note like this already exists. Be creative!" });
+          flashErrors.push({ type: 'danger', message: "A note like this already exists. Be creative!" });
         }
-	if (err.name == 'ValidationError') {
-	  for (var errorPath in err.errors) {
-	    var error = err.errors[errorPath];
-	    console.log(error);
-	    flashErrors.push({
-	      type: 'danger',
-	      message: error.message
-	    });
-	  }
-	}
-	socket.emit('appFlash', flashErrors);
+        if (err.name == 'ValidationError') {
+          for (var errorPath in err.errors) {
+            var error = err.errors[errorPath];
+            console.log(error);
+            flashErrors.push({
+              type: 'danger',
+              message: error.message
+            });
+          }
+        }
+        socket.emit('appFlash', flashErrors);
       }
       else {
         io.sockets.emit('newNoteSaved', savedNote);

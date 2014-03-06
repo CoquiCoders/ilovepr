@@ -78,7 +78,7 @@ $(document).ready(function() {
         });
     }
     if (newNoteData.notes.length < 1) {
-	console.log('Unbind InView');
+        console.log('Unbind InView');
         container.unbind('inview');
         return;
     }
