@@ -1,6 +1,7 @@
 // @TODO most of this stuff is home page specific.  Make it only load to front page.
 $(document).ready(function() {
   var container = $('.notes');
+  var errorFlashContainer = $('#flash');
   var flashElement = $('.new-content-flash');
   var flashInAnimationName = 'fadeInDown';
   var flashOutAnimationName = 'fadeOut';
@@ -32,7 +33,8 @@ $(document).ready(function() {
   });
 
   // Bind to the flash element that every time the animation is over, to clear the animate.css classes.
-  flashElement.bind('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',   function() {
+  var fadeOutBinding = function () {
+    console.log('fading out.');
     // React differently based on in our out animation;
     if ($(this).hasClass(flashOutAnimationName)) {
       // Clear html on flash out.
@@ -43,8 +45,11 @@ $(document).ready(function() {
     // Regardless remove animation classes.
     $(this).removeClass('animated ' + flashInAnimationName);
     $(this).removeClass('animated ' + flashOutAnimationName);
+  };
 
-  });
+
+  $(errorFlashContainer).bind('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', fadeOutBinding);
+  $(flashElement).bind('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', fadeOutBinding);
 
 
   // Socket Ops.
@@ -57,14 +62,13 @@ $(document).ready(function() {
 
   socket.on('appFlash', function(flashData) {
     var flashString = '';
-    console.log(flashData);
     for (var i = 0; i < flashData.length; i++) {
-      flashString = flashString + '<div class="alert animated fadeIn alert-' + flashData[i].type + '">' + flashData[i].message + '</div>';
+      flashString = flashString + '<div class="alert alert-' + flashData[i].type + '">' + flashData[i].message + '</div>';
     }
-    $('#flash').html(flashString);
+    $(errorFlashContainer).html(flashString).addClass('animated ' + flashInAnimationName);
     setTimeout(function() {
-      $('#flash').addClass('animated ' + flashOutAnimationName);
-    }, 5000);
+      $(errorFlashContainer).addClass('animated ' + flashOutAnimationName);
+    }, 500);
   });
 
   socket.on('additionalNotesLoaded', function(newNoteData) {
