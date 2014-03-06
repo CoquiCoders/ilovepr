@@ -65,18 +65,6 @@ exports.saveNote = function(noteData, callback) {
 exports.getNotes = function(requestParams) {
   console.log('getnotes');
   // @TODO -- use select here to figure out unneeded params.
-  return Note.find(null, null, requestParams).sort({ natural: -1 }).exec();
+  return Note.find(null, null, requestParams).sort({ _id: -1 }).exec();
 };
 
-
-
-
-/*exports.respond = function (socket_io) {
-  // now we can do whatever we want:
-  console.log('RESPONDING');
-  socket_io.on('news',function(newsreel){
-  // as is proper, protocol logic like
-  // this belongs in a controller:
-    socket.broadcast.emit(newsreel);
-  });
-};*/
