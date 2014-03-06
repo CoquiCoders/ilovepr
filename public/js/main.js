@@ -4,7 +4,7 @@ $(document).ready(function() {
   var flashElement = $('.new-content-flash');
   var flashInAnimationName = 'fadeInDown';
   var flashOutAnimationName = 'fadeOut';
-  var noteIncrementLoadLimit = 18;
+  var noteIncrementLoadLimit = 9;
 
   // Helpers.
   var templateNote = function(noteData) {
@@ -21,17 +21,8 @@ $(document).ready(function() {
   // Setup Stuff.
   // The notes there initially will always show up so we can be sure about it.
   // TODO -- look into socket loading in the beginning -- with not db call by load at all.
-  $('ul.notes').data('loadedNotes', 0);
-  // Isotope stuff.
-  /*container.isotope({
-    itemSelector: '.note',
-    // options...
-    resizable: false, // disable normal resizing
-    // set columnWidth to a percentage of container width
-    masonry: { columnWidth: container.width() / 50 }
-  });*/
-
-  $('ul.notes').bind('inview', function(event, isInView, visiblePartX, visiblePartY) {
+  container.data('loadedNotes', 0);
+  container.bind('inview', function(event, isInView, visiblePartX, visiblePartY) {
     if (isInView && visiblePartY == 'bottom') {
       console.log('Gonna load some stuff');
       var noteRequestParams = {skip: container.data('loadedNotes'), limit: noteIncrementLoadLimit};
@@ -60,7 +51,6 @@ $(document).ready(function() {
   socket.on('connect', function() {
     console.log('CLIENT: Connection Made');
     var noteRequestParams = {skip: container.data('loadedNotes'), limit: noteIncrementLoadLimit};
-    console.log(noteRequestParams);
     socket.emit('additionalNotesRequested', noteRequestParams);
   });
 
@@ -111,6 +101,12 @@ $(document).ready(function() {
     var newNote = templateNote(data);
     // Prepend it to the container, but don't re-init isotope until Show Me Is Clicked.
     container.prepend(newNote);
+
+    // Open a window to execute tweet.
+    var path = 'http://www.google.com';
+    var windowName = 'Tweet!'; // should not include space for IE
+    var windowOptions = 'location=0,status=0,width=570,height=700,scrollbars=yes';
+    var twitterWindow = window.open(path, windowName, windowOptions);
 
     // Since the HTML keeps refreshing in the flash, we have to keep re-binding the callback for click on Show Me.
     // This is shitty and has to be a better way.

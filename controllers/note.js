@@ -65,7 +65,7 @@ exports.saveNote = function(noteData, callback) {
 exports.getNotes = function(requestParams) {
   console.log('getnotes');
   // @TODO -- use select here to figure out unneeded params.
-  return Note.find(null, null, requestParams).exec();
+  return Note.find(null, null, requestParams).sort({ natural: -1 }).exec();
 };
 
 
