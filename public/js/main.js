@@ -4,7 +4,7 @@ $(document).ready(function() {
   var flashElement = $('.new-content-flash');
   var flashInAnimationName = 'fadeInDown';
   var flashOutAnimationName = 'fadeOut';
-  var noteIncrementLoadLimit = 9;
+  var noteIncrementLoadLimit = 27;
 
   // Helpers.
   var templateNote = function(noteData) {
@@ -36,6 +36,7 @@ $(document).ready(function() {
     // React differently based on in our out animation;
     if ($(this).hasClass(flashOutAnimationName)) {
       // Clear html on flash out.
+      console.log('flashout');
       $(this).html('');
     }
 
@@ -55,11 +56,18 @@ $(document).ready(function() {
   });
 
   socket.on('appFlash', function(flashData) {
-    $('#flash').html('<div class="alert animated fadeIn alert-' + flashData.type + '">' + flashData.message + '</div>');
+    var flashString = '';
+    console.log(flashData);
+    for (var i = 0; i < flashData.length; i++) {
+      flashString = flashString + '<div class="alert animated fadeIn alert-' + flashData[i].type + '">' + flashData[i].message + '</div>';
+    }
+    $('#flash').html(flashString);
+    setTimeout(function() {
+      $('#flash').addClass('animated ' + flashOutAnimationName);
+    }, 5000);
   });
 
   socket.on('additionalNotesLoaded', function(newNoteData) {
-    console.log(newNoteData);
     if (!newNoteData.requestParams.skip || newNoteData.requestParams.skip < 1) {
         container.isotope({
           itemSelector: '.note',
@@ -70,6 +78,7 @@ $(document).ready(function() {
         });
     }
     if (newNoteData.notes.length < 1) {
+	console.log('Unbind InView');
         container.unbind('inview');
         return;
     }
@@ -85,7 +94,6 @@ $(document).ready(function() {
   });
 
   socket.on('newNoteSaved', function(data) {
-    console.log('incoming');
     // @TODO how to template this?
     // Get Current "Unread" Note Count
     var noteCount = $('.new-content-flash').data('note-count') || 0;
@@ -95,7 +103,7 @@ $(document).ready(function() {
       // Store Note Count.
       .data('note-count', noteCount)
       // Display Message.
-      .html('<strong>' + noteCount + '</strong> New Notes Available <a href="#" class="flash-show-items">Show Me</a>')
+      .html('<div class="alert animated ' + flashInAnimationName + ' alert-info"><strong>' + noteCount + '</strong> New Notes Available <a href="#" class="flash-show-items">Show Me</a>')
       // Make it animate.css pretty.
       .addClass('animated ' + flashInAnimationName);
     var newNote = templateNote(data);

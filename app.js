@@ -189,21 +189,26 @@ io.sockets.on('connection', function(socket) {
   // Handle submission of a new note on the form;
   socket.on('newNoteSubmitted', function(noteData) {
     // @TODO use local socket to react differently for submitter.
-    console.log('New Note');
-    console.log(noteData);
     noteController.saveNote(noteData, function(err, savedNote) {
-      console.log(err);
-      console.log(savedNote);
       if (err) {
+	console.log(err);
+	var flashErrors = [];
         var errorMessage = "Something happend and we couldn't save your note. Please try again.";
         if (err.code == 11000) {
           console.log('Dup Note.');
-          errorMessage = "A note like this already exists. Be creative!";
+	  flashErrors.push({ type: 'danger', message: "A note like this already exists. Be creative!" });
         }
-        socket.emit('appFlash', {
-          type: 'danger',
-          message: errorMessage
-        });
+	if (err.name == 'ValidationError') {
+	  for (var errorPath in err.errors) {
+	    var error = err.errors[errorPath];
+	    console.log(error);
+	    flashErrors.push({
+	      type: 'danger',
+	      message: error.message
+	    });
+	  }
+	}
+	socket.emit('appFlash', flashErrors);
       }
       else {
         io.sockets.emit('newNoteSaved', savedNote);
@@ -217,7 +222,6 @@ io.sockets.on('connection', function(socket) {
     console.log('Give me new notes');
     noteController.getNotes(requestParams).then(function(newNotes) {
       console.log('notes promise.');
-      console.log(newNotes);
       // Emit new socket with retrieved notes.
       socket.emit('additionalNotesLoaded', {notes: newNotes, requestParams: requestParams});
     });
