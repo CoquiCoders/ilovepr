@@ -62,9 +62,26 @@ exports.saveNote = function(noteData, callback) {
 
 };
 
-exports.getNotes = function(requestParams) {
+/**
+ * GET /notes/:skip/:limit
+ * Get Notes.
+ * @param req
+ * @param res
+ */
+
+exports.getNotes = function(req, res) {
   console.log('getnotes');
+  console.log(req.params);
+  var requestParams = {};
+  var requestParams = {skip: req.params.skip, limit: req.params.limit};
+  // TODO validate params incoming.
+  console.log(requestParams);
   // @TODO -- use select here to figure out unneeded params.
-  return Note.find(null, null, requestParams).sort({ _id: -1 }).exec();
+  Note.find(null, null, requestParams).sort({ _id: -1 }).exec(function(err, foundNotes){
+    res.send({
+        requestParams: requestParams,
+        notes: foundNotes
+    });
+  });
 };
 

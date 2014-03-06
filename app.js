@@ -104,6 +104,7 @@ app.use(express.errorHandler());
 app.get('/', homeController.index);
 app.get('/note/new', noteController.getNewNoteForm);
 app.post('/note/new', noteController.postNewNoteForm);
+app.get('/notes/:skip/:limit', noteController.getNotes);
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
 app.get('/logout', userController.logout);
