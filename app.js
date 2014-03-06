@@ -179,7 +179,7 @@ server.listen(app.get('port'), function() {
 });
 
 io.configure(function() {
-  io.set('transports', ['websocket']);
+  //io.set('transports', ['websocket']);
 });
 
 io.sockets.on('connection', function(socket) {
