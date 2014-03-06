@@ -180,8 +180,8 @@ server.listen(app.get('port'), function() {
 
 io.configure(function() {
   //io.set('transports', ['websocket']);
-  io.set("transports", ["xhr-polling"]);
-  io.set("polling duration", 10);
+  //io.set("transports", ["xhr-polling"]);
+  //io.set("polling duration", 10);
 });
 
 io.sockets.on('connection', function(socket) {
