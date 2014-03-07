@@ -42,7 +42,7 @@ exports.getNotes = function(req, res) {
   // TODO validate params incoming.
   console.log(requestParams);
   // @TODO -- use select here to figure out unneeded params.
-  Note.find(null, null, requestParams).sort({ _id: -1 }).exec(function(err, foundNotes){
+  Note.find(null, null, requestParams).sort({ _id: 1 }).exec(function(err, foundNotes){
     res.send({
         requestParams: requestParams,
         notes: foundNotes
