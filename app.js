@@ -2,6 +2,13 @@
  * Module dependencies.
  */
 
+if(process.env.NODETIME_ACCOUNT_KEY) {
+  require('nodetime').profile({
+    accountKey: process.env.NODETIME_ACCOUNT_KEY,
+    appName: 'iLovePR' // optional
+  });
+}
+
 var express = require('express');
 var MongoStore = require('connect-mongo')(express);
 var flash = require('express-flash');
