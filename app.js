@@ -37,7 +37,6 @@ var passportConf = require('./config/passport');
 var app = express();
 var http = require('http');
 var server = http.createServer(app);
-var io = require('socket.io').listen(server);
 
 /**
  * Mongoose configuration.
@@ -102,7 +101,6 @@ app.use(express.errorHandler());
  */
 
 app.get('/', homeController.index);
-app.get('/note/new', noteController.getNewNoteForm);
 app.post('/note/new', noteController.postNewNoteForm);
 app.get('/notes/:skip/:limit', noteController.getNotes);
 app.get('/login', userController.getLogin);
@@ -173,61 +171,6 @@ app.get('/auth/venmo/callback', passport.authorize('venmo', { failureRedirect: '
 /**
  * Start Express server.
  */
-
-//app.listen(app.get('port'), function() {
-server.listen(app.get('port'), function() {
+app.listen(app.get('port'), function() {
   console.log("✔ Express server listening on port %d in %s mode", app.get('port'), app.settings.env);
-});
-
-io.configure(function() {
-  //io.set('transports', ['websocket']);
-  //io.set("transports", ["xhr-polling"]);
-  //io.set("polling duration", 10);
-});
-
-io.sockets.on('connection', function(socket) {
-  console.log('SERVER: Connection Made');
-
-  // @TODO should be this AJAX?
-  // Handle submission of a new note on the form;
-  socket.on('newNoteSubmitted', function(noteData) {
-    // @TODO use local socket to react differently for submitter.
-    noteController.saveNote(noteData, function(err, savedNote) {
-      if (err) {
-        console.log(err);
-        var flashErrors = [];
-        var errorMessage = "Something happend and we couldn't save your note. Please try again.";
-        if (err.code == 11000) {
-          console.log('Dup Note.');
-          flashErrors.push({ type: 'danger', message: "A note like this already exists. Be creative!" });
-        }
-        if (err.name == 'ValidationError') {
-          for (var errorPath in err.errors) {
-            var error = err.errors[errorPath];
-            console.log(error);
-            flashErrors.push({
-              type: 'danger',
-              message: error.message
-            });
-          }
-        }
-        socket.emit('appFlash', flashErrors);
-      }
-      else {
-        io.sockets.emit('newNoteSaved', savedNote);
-      }
-    });
-  });
-
-  // Handle onScroll event when user scrolls to bottom of page.
-  socket.on('additionalNotesRequested', function(requestParams) {
-    console.log(requestParams);
-    console.log('Give me new notes');
-    noteController.getNotes(requestParams).then(function(newNotes) {
-      console.log('notes promise.');
-      // Emit new socket with retrieved notes.
-      socket.emit('additionalNotesLoaded', {notes: newNotes, requestParams: requestParams});
-    });
-  });
-
 });
