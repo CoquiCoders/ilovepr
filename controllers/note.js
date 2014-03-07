@@ -1,4 +1,3 @@
-var passport = require('passport');
 var _ = require('underscore');
 var Note = require('../models/Note');
 
