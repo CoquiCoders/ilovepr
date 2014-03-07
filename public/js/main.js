@@ -139,9 +139,9 @@ var prLover = {
     // Bind Smart Resize.
     // update columnWidth on window resize
     $(window).smartresize(function(){
-      $(this.container).isotope({
+      $(self.container).isotope({
         // update columnWidth to a percentage of container width
-        masonry: { columnWidth: $(this.container).width() / 50 }
+	masonry: { columnWidth: $(self.container).width() / 50 }
       });
     });
 
