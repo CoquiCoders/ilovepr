@@ -141,7 +141,7 @@ var prLover = {
     $(window).smartresize(function(){
       $(self.container).isotope({
         // update columnWidth to a percentage of container width
-	masonry: { columnWidth: $(self.container).width() / 50 }
+        masonry: { columnWidth: $(self.container).width() / 50 }
       });
     });
 
