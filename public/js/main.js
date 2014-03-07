@@ -48,11 +48,9 @@ var prLover = {
 
 
   fadeOutBinding: function (element) {
-    console.log('fading out.');
     // React differently based on in our out animation;
     if ($(element).hasClass(this.flashOutAnimationName)) {
       // Clear html on flash out.
-      console.log('flashout');
       $(element).html('');
     }
 
@@ -62,8 +60,6 @@ var prLover = {
   },
 
   getNotes: function(options) {
-    console.log('Get Notes Options');
-    console.log(options);
     var url = 'notes/' + options.skip + '/' + options.limit;
     return $.ajax({
       type: "GET",
@@ -73,8 +69,6 @@ var prLover = {
   },
 
   insertNewNotes: function(newNoteData) {
-    console.log('Insert New Notes');
-    console.log(newNoteData);
     // First Time Call.
     if (!newNoteData.requestParams.skip || newNoteData.requestParams.skip < 1) {
       $(this.container).isotope({
@@ -87,7 +81,6 @@ var prLover = {
     }
     // Last Time Call.
     if (newNoteData.notes.length < 1) {
-      console.log('Unbind InView');
       //container.unbind('inview');
       $(window).unbind('scroll');
       return;
@@ -108,9 +101,6 @@ var prLover = {
     var noteText = $('#new-note-form #noteText').val();
     var twitterHandle = $('#new-note-form #twitterHandle').val();
     var _csrf = $("#new-note-form [name='_csrf']").val();
-    console.log(_csrf);
-    console.log(noteText);
-    console.log(twitterHandle);
     return $.ajax({
       type: "POST",
       url: 'note/new',
@@ -138,7 +128,6 @@ var prLover = {
     // Bind Scroll Loading.
     $(window).bind('scroll', function() {
       if ($(window).scrollTop() + $(window).height() == self.getDocHeight()) {
-        console.log("bottom!");
         self.getNotes({
           skip: $(self.container).data('loadedNotes'),
           limit: self.noteIncrementLoadLimit
@@ -177,7 +166,6 @@ var prLover = {
             });
             $(prLover.flashElement).append(flashString);
           }
-          console.log('fi');
           prLover.fadeIn(prLover.flashElement);
           setTimeout(function(){
             prLover.fadeOut(prLover.flashElement);
