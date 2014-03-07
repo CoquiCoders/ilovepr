@@ -36,7 +36,6 @@
     "twilio": "~1.5.0",
     "validator": "~3.2.1",
     "crypto": "0.0.3",
-    "socket.io": "~0.9.16",
     "nodetime": "~0.8.15"
   }
 }
