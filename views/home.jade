@@ -14,17 +14,13 @@ block content
       .col-sm-7
         input.form-control(type='text', name='twitterHandle', id='twitterHandle', placeholder='Twitter', autofocus)
     .form-group
+      label.col-sm-3.control-label(for='tweetThisNote') Tweet this note
+      .col-sm-7
+        input.form-control(type='checkbox', name='tweetThisNote', id='tweetThisNote' checked)
+     .form-group
       .col-sm-offset-3.col-sm-7
         button.btn.btn-success(type='submit')
           i.fa.fa-check
               | Enviar
   ul.notes
-    //img(src="http://www.ajaxload.info/cache/FF/FF/FF/34/7C/DF/27-1.gif")
-//    for note in notes
-//      li.note
-//        .note-text= note.text
-//        if note.twitterHandle
-//          .note-twitter-handle
-//            a(href="http://twitter.com/#{note.twitterHandle}" target="_blank")
-//              @#{note.twitterHandle}
 

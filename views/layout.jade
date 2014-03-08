@@ -7,8 +7,15 @@ html(lang='es')
     meta(name='description', content='')
     meta(name='author', content='')
     title #{title} Yo Me Quedo en Puerto Rico
-    //link(href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css", rel="stylesheet")
     != css('styles')
+    script(src='//platform.twitter.com/widgets.js')
+    script.
+      /*window.twttr = (function (d,s,id) {
+        var t, js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return; js=d.createElement(s); js.id=id;
+        js.src="https://platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs);
+        return window.twttr || (t = { _e: [], ready: function(f){ t._e.push(f) } });
+       }(document, "script", "twitter-wjs"));*/
     != js('application')
     // TODO -- figure out how stuff gets added to JADE like this
   body
