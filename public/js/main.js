@@ -21,9 +21,6 @@ var prLover = {
     }
     var tweetUrl = 'https://twitter.com/intent/tweet?' + $.param(tweetLink, true);
     newNote = newNote + '<div class="tweet-link pull-right"><a href="' + tweetUrl + '"><img src="img/bird_gray_32.png"/></a></div>';
-    //<p><a href="https://twitter.com/intent/tweet?in_reply_to=51113028241989632">Reply</a></p>
-// http://bit.ly/ilovepr
-// http%3A%2F%2Fbit.ly/ilovepr%2F
     newNote = newNote + "</li>";
 
     return newNote;
@@ -130,9 +127,6 @@ var prLover = {
       .isotope({ sortBy: 'original-order' });
   },
 
-  openTweetWindowWithData: function(tweetData) {
-
-  },
   init: function() {
     // Setup.
     // Grab Loaded Notes
@@ -166,10 +160,6 @@ var prLover = {
       event.stopPropration;
       self.createNewNote().then(function(response) {
         if (!response.errors) {
-          // If tweet is checked, tweet.
-          if ($('#tweetThisNote').is(':checked')) {
-            prLover.openTweetWindowWithData({});
-          }
           // Clear out the fields.
           $('#new-note-form #noteText').val('');
           $('#new-note-form #twitterHandle').val('');
