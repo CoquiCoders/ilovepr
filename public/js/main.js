@@ -10,7 +10,7 @@ var prLover = {
 
   templateNote: function(noteData) {
     // Template the new note.
-    var newNote = "<li class='note'><div class='note-text'>" + noteData.text + "</div>";
+    var newNote = "<li class='note col-md-3'><div class='note-text'>" + noteData.text + "</div>";
     if (noteData.twitterHandle) {
       newNote = newNote + "<div class='note-twitter-handle'><a href='http://twitter.com/" + noteData.twitterHandle + "' target='_blank'>@" + noteData.twitterHandle + "</a></div>";
     }
