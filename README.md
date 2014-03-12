@@ -7,6 +7,16 @@ The idea for this repository came out of many conversations with people who real
 * Install Node and NPM (`brew install node`)
 * Install mongo (`brew install mongo`);
 * Install nodemon (`npm install -g nodemon`)
+* Install express (`npm install express`)
+* Install connect-mongo (`npm install connect-mongo`)
+* Install express-flash (`npm install express-flash`)
+* Install mongoose (`npm install mongoose`)
+* Install express-validator (`npm install express-validator`)
+* Install underscore (`npm install underscore`)
+* Install bcrypt-nodejs (`npm install bcrypt-nodejs`)
+* Install connect-assets (`npm install connect-assets`)
+* Install jade (`npm install jade`)
+* Install less (`npm install less`)
 * Open a terminal window. Type `mongod`  Minimize the window.
 * Open another terminal window. Do the following:
   *  `cd directory/you/cloned/ilovepr/in`
