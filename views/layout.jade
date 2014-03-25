@@ -6,18 +6,16 @@ html(lang='es')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     meta(name='description', content='')
     meta(name='author', content='')
+    meta(property='og:title' content='Yo Me Quedo En Puerto Rico Porque...')
+    meta(property='og:url' content='http://www.ilovepuertorico.org')
+    meta(property='og:site_name' content='Yo Me Quedo En Puerto Rico Porque...')
+    meta(property='og:type' content='Website')
+    meta(property='og:image' content='http://www.ilovepuertorico.org/img/logo_heart.png')
     title #{title} Yo Me Quedo en Puerto Rico
     != css('styles')
     script(src='//platform.twitter.com/widgets.js')
     script.
-      /*window.twttr = (function (d,s,id) {
-        var t, js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return; js=d.createElement(s); js.id=id;
-        js.src="https://platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs);
-        return window.twttr || (t = { _e: [], ready: function(f){ t._e.push(f) } });
-       }(document, "script", "twitter-wjs"));*/
     != js('application')
-    // TODO -- figure out how stuff gets added to JADE like this
   body
     #wrap
       include partials/navigation

@@ -18,6 +18,20 @@ var prLover = {
     return tweetUrl;
   },
 
+  templateFBLink: function(noteData) {
+    //https://www.facebook.com/sharer/sharer.php?app_id=113869198637480&sdk=joey&u=http://ilovepuertorico.org&display=popup
+    var fbLink = {
+      app_id: '113869198637480',
+      sdk: 'joey',
+      u: 'http://www.ilovepuertorico.org',
+      display: 'popup'
+    }
+
+    var fbUrl = 'https://www.facebook.com/sharer/sharer.php?' + $.param(fbLink, true);
+
+    return fbUrl;
+  },
+
   templateNote: function(noteData) {
     // Template the new note.
     var newNote = "<li class='note col-md-3'><div class='note-text'>" + noteData.text + "</div>";
@@ -170,7 +184,10 @@ var prLover = {
           $('#new-note-form #twitterHandle').val('');
           prLover.prependNewNote(response);
           var tweetUrl = self.templateTweetLink(response);
-          $('.variable-modal-content').html('<a class="btn btn-large" href="' + tweetUrl + '">Tweet!</a>');
+          var fbUrl = self.templateFBLink(response);
+          $('.variable-modal-content').html(
+            '<a class="btn btn-large" href="' + tweetUrl + '">Twitter</a><a target="_blank" class="btn btn-large" href="' + fbUrl + '">Facebook</a>'
+          );
           $('#sharer-modal').modal();
         }
         else {
