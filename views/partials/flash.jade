@@ -11,3 +11,10 @@
     .alert.alert-success.animated.fadeIn
       for success in messages.success
         div= success.msg
+#sharer-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='Tweet Note', data-dismiss='modal',  aria-hidden='true')
+  div.sharer-modal-content
+    div.static-modal-content
+      h2 Success!
+      h4 Your Note Has Been Submitted
+      h3 Spread The Love!
+    div.variable-modal-content

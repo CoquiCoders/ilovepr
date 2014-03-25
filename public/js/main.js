@@ -8,18 +8,23 @@ var prLover = {
   noteIncrementLoadLimit: 27,
   flashFinishedEvents: 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
 
-  templateNote: function(noteData) {
-    // Template the new note.
-    var newNote = "<li class='note col-md-3'><div class='note-text'>" + noteData.text + "</div>";
-    if (noteData.twitterHandle) {
-      newNote = newNote + "<div class='note-twitter-handle'><a href='http://twitter.com/" + noteData.twitterHandle + "' target='_blank'>@" + noteData.twitterHandle + "</a></div>";
-    }
+  templateTweetLink: function(noteData) {
     var tweetLink = {
       url: 'http://bit.ly/ilovepr',
       text: 'Yo Me Quedo en Puerto Rico porque ' + noteData.text,
       hashtags: 'ilovepr'
     }
     var tweetUrl = 'https://twitter.com/intent/tweet?' + $.param(tweetLink, true);
+    return tweetUrl;
+  },
+
+  templateNote: function(noteData) {
+    // Template the new note.
+    var newNote = "<li class='note col-md-3'><div class='note-text'>" + noteData.text + "</div>";
+    if (noteData.twitterHandle) {
+      newNote = newNote + "<div class='note-twitter-handle'><a href='http://twitter.com/" + noteData.twitterHandle + "' target='_blank'>@" + noteData.twitterHandle + "</a></div>";
+    }
+    var tweetUrl = this.templateTweetLink(noteData);
     newNote = newNote + '<div class="tweet-link pull-right"><a href="' + tweetUrl + '"><img src="img/bird_gray_32.png"/></a></div>';
     newNote = newNote + "</li>";
 
@@ -164,6 +169,9 @@ var prLover = {
           $('#new-note-form #noteText').val('');
           $('#new-note-form #twitterHandle').val('');
           prLover.prependNewNote(response);
+          var tweetUrl = self.templateTweetLink(response);
+          $('.variable-modal-content').html('<a class="btn btn-large" href="' + tweetUrl + '">Tweet!</a>');
+          $('#sharer-modal').modal();
         }
         else {
           for (var i = 0; i < response.errors.length; i ++) {
