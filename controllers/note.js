@@ -67,7 +67,7 @@ exports.updateNote = function(req, res) {
     if (errors) {
       return res.send({ errors: errors });
     }
-	console.log(updatedObject);
+  	console.log(updatedObject);
     res.send({'_id': updatedObject._id, 'votes': updatedObject.votes});
   });
 

@@ -112,7 +112,7 @@ var prLover = {
         _csrf: _csrf
       },
       success: function(data) {
-	$(element).find('.vote-count').text(data.votes);
+        $(element).find('.vote-count').text(data.votes);
       },
     });
 
