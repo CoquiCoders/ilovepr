@@ -104,13 +104,16 @@ var prLover = {
     var note = $(element).data('noteid');
     var _csrf = $("#new-note-form [name='_csrf']").val();
     console.log(note);
-    return $.ajax({
+    $.ajax({
       type: "PUT",
       url: 'notes/' + $(element).data('noteid'),
       data: {
         voteCount: '+1',
         _csrf: _csrf
-      }
+      },
+      success: function(data) {
+	$(element).find('.vote-count').text(data.votes);
+      },
     });
 
   },
