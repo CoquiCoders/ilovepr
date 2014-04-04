@@ -61,12 +61,12 @@ exports.updateNote = function(req, res) {
   var voteOp = req.body.voteCount;
   var update = {};
   if (voteOp == '+1'){
-	update = { $inc: { votes: 1 } } ;
+  	update = { $inc: { votes: 1 } } ;
   }
   Note.update(query, update, {}, function (err, numberAffected, raw) {
-	console.log(err);
-	console.log(numberAffected);
-	console.log(raw);
+  	console.log(err);
+  	console.log(numberAffected);
+  	console.log(raw);
   })
 
 };
