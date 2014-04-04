@@ -97,7 +97,18 @@ var prLover = {
 
   voteOnNote: function(element) {
     console.log(element);
-    console.log($(element).data('noteid'));
+    var note = $(element).data('noteid');
+    var _csrf = $("#new-note-form [name='_csrf']").val();
+    console.log(note);
+    return $.ajax({
+      type: "PUT",
+      url: 'notes/' + $(element).data('noteid'),
+      data: {
+        voteCount: '+1',
+        _csrf: _csrf
+      }
+    });
+
   },
 
   insertNewNotes: function(newNoteData) {
