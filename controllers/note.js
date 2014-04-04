@@ -8,7 +8,6 @@ var Note = require('../models/Note');
  * @param email
  * @param password
  */
-
 exports.postNewNoteForm = function(req, res, next) {
   req.assert('noteText', 'Text must be between 1 and 140 characters').len(1, 140);
   req.assert('twitterHandle', 'Twitter handle must be between 1 and 25 characters').len(1, 25);
@@ -32,7 +31,6 @@ exports.postNewNoteForm = function(req, res, next) {
  * @param req
  * @param res
  */
-
 exports.getNotes = function(req, res) {
   console.log('getnotes');
   console.log(req.params);
@@ -47,5 +45,16 @@ exports.getNotes = function(req, res) {
         notes: foundNotes
     });
   });
+};
+
+/**
+ * PUT /notes/:note_id
+ * Update Note.
+ * @param req
+ * @param res
+ */
+exports.updateNote = function(req, res) {
+  console.log('updateNote');
+  console.log(req.params);
 };
 

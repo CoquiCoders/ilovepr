@@ -39,6 +39,7 @@ var prLover = {
       newNote = newNote + "<div class='note-twitter-handle'><a href='http://twitter.com/" + noteData.twitterHandle + "' target='_blank'>@" + noteData.twitterHandle + "</a></div>";
     }
     var tweetUrl = this.templateTweetLink(noteData);
+    newNote = newNote + '<div class="note-vote"><button type="button" data-noteid="' + noteData._id + '"  class="btn-default"><i class="fa fa-thumbs-o-up"></i></button></div>';
     newNote = newNote + '<div class="tweet-link pull-right"><a href="' + tweetUrl + '"><img src="img/bird_gray_32.png"/></a></div>';
     newNote = newNote + "</li>";
 
@@ -94,6 +95,11 @@ var prLover = {
     });
   },
 
+  voteOnNote: function(element) {
+    console.log(element);
+    console.log($(element).data('noteid'));
+  },
+
   insertNewNotes: function(newNoteData) {
     // First Time Call.
     if (!newNoteData.requestParams.skip || newNoteData.requestParams.skip < 1) {
@@ -120,6 +126,9 @@ var prLover = {
     $(this.container).isotope('insert', $(notesToAdd));
     var updatedNoteCount = $(this.container).data('loadedNotes') + this.noteIncrementLoadLimit;
     $(this.container).data('loadedNotes', updatedNoteCount);
+    $('.note-vote button').click(function(e) {
+      prLover.voteOnNote(this);
+    });
   },
 
   createNewNote: function() {
