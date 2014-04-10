@@ -100,7 +100,6 @@ var prLover = {
   },
 
   voteOnNote: function(element) {
-    console.log(element);
     var note = $(element).data('noteid');
     var _csrf = $("#new-note-form [name='_csrf']").val();
     console.log(note);
@@ -112,7 +111,9 @@ var prLover = {
         _csrf: _csrf
       },
       success: function(data) {
-        $(element).find('.vote-count').text(data.votes);
+        if (data.changed !== false ) {
+          $(element).find('.vote-count').text(data.votes);
+        }
       },
     });
 

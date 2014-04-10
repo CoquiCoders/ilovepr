@@ -55,20 +55,20 @@ exports.getNotes = function(req, res) {
  */
 exports.updateNote = function(req, res) {
   console.log('updateNote');
-  //console.log(req.params);
-  //console.log(req.body);
-  var query = { _id: req.params.note_id };
+  var query = { _id: req.params.note_id, voters: { '$ne':  req.sessionID } };
   var voteOp = req.body.voteCount;
   var update = {};
   if (voteOp == '+1'){
-  	update = { $inc: { votes: 1 } } ;
+  	update = { '$inc': { 'votes': 1 }, '$push': { voters: req.sessionID } } ;
   }
   Note.findOneAndUpdate(query, update, {}, function (errors, updatedObject) {
     if (errors) {
       return res.send({ errors: errors });
     }
-  	console.log(updatedObject);
-    res.send({'_id': updatedObject._id, 'votes': updatedObject.votes});
+    if (updatedObject) {
+      return res.send({'_changed': true, '_id': updatedObject._id, 'votes': updatedObject.votes});
+    }
+    return res.send({ '_changed': false });
   });
 
 };
