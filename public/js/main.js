@@ -102,7 +102,6 @@ var prLover = {
   voteOnNote: function(element) {
     var note = $(element).data('noteid');
     var _csrf = $("#new-note-form [name='_csrf']").val();
-    console.log(note);
     $.ajax({
       type: "PUT",
       url: 'notes/' + $(element).data('noteid'),
