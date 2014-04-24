@@ -110,6 +110,7 @@ app.use(express.errorHandler());
 app.get('/', homeController.index);
 app.post('/note/new', noteController.postNewNoteForm);
 app.get('/notes/:skip/:limit', noteController.getNotes);
+app.put('/notes/:note_id', noteController.updateNote);
 /*app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
 app.get('/logout', userController.logout);

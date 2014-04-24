@@ -34,11 +34,16 @@ var prLover = {
 
   templateNote: function(noteData) {
     // Template the new note.
-    var newNote = "<li class='note col-md-3'><div class='note-text'>" + noteData.text + "</div>";
+    var newNote = "<li class='note col-md-3'><div class='note-text note-" + noteData._id + "'>" + noteData.text + "</div>";
     if (noteData.twitterHandle) {
       newNote = newNote + "<div class='note-twitter-handle'><a href='http://twitter.com/" + noteData.twitterHandle + "' target='_blank'>@" + noteData.twitterHandle + "</a></div>";
     }
     var tweetUrl = this.templateTweetLink(noteData);
+    var voteCount = noteData.votes;
+    if (voteCount == 0) {
+      voteCount = '';
+    }
+    newNote = newNote + '<div class="note-vote pull-left"><button type="button" data-noteid="' + noteData._id + '"  class="btn-default"><span class="vote-count">' + voteCount + '</span> <i class="fa fa-thumbs-o-up"></i></button></div>';
     newNote = newNote + '<div class="tweet-link pull-right"><a href="' + tweetUrl + '"><img src="img/bird_gray_32.png"/></a></div>';
     newNote = newNote + "</li>";
 
@@ -94,6 +99,25 @@ var prLover = {
     });
   },
 
+  voteOnNote: function(element) {
+    var note = $(element).data('noteid');
+    var _csrf = $("#new-note-form [name='_csrf']").val();
+    $.ajax({
+      type: "PUT",
+      url: 'notes/' + $(element).data('noteid'),
+      data: {
+        voteCount: '+1',
+        _csrf: _csrf
+      },
+      success: function(data) {
+        if (data.changed !== false ) {
+          $(element).find('.vote-count').text(data.votes);
+        }
+      },
+    });
+
+  },
+
   insertNewNotes: function(newNoteData) {
     // First Time Call.
     if (!newNoteData.requestParams.skip || newNoteData.requestParams.skip < 1) {
@@ -120,6 +144,9 @@ var prLover = {
     $(this.container).isotope('insert', $(notesToAdd));
     var updatedNoteCount = $(this.container).data('loadedNotes') + this.noteIncrementLoadLimit;
     $(this.container).data('loadedNotes', updatedNoteCount);
+    $('.note-vote button').click(function(e) {
+      prLover.voteOnNote(this);
+    });
   },
 
   createNewNote: function() {
