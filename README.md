@@ -10,6 +10,7 @@ The idea for this repository came out of many conversations with people who real
 * Open a terminal window. Type `mongod`  Minimize the window.
 * Open another terminal window. Do the following:
   *  `cd directory/you/cloned/ilovepr/in`
+  *  `npm install`
   *  `nodemon app.js`
   * This will watch your filesystem for changes and restart the app as needed.
 * Code away!!!
